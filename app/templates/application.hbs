@@ -1,0 +1,28 @@
+<h2> Ember Gym App </h2>
+
+Age: {{input}}
+<br>
+Weight: {{input valueBinding="weight"}}
+<br>
+Height(in): {{input}}
+<br>
+
+<h3> Lifts </h3>
+
+Bench Press: {{input valueBinding="benchMax"}}
+Squat: {{input valueBinding="squatMax"}}
+Deadlift: {{input valueBinding="deadMax"}}
+
+<br>
+
+<button {{action "calculateLifts"}}> Calculate </button>
+
+{{#if isCalculated}}
+ <h3> Results </h3>
+ <ul>
+   <li> Estimated total: {{liftTotal}} </li>
+   <li> You are {{benchClass}} in Bench Press </li>
+   <li> {{squatClass}} in Squats </li>
+   <li> and {{deadClass}} in Deadlifts </li>
+ </ul>
+{{/if}}
