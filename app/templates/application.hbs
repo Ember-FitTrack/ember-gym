@@ -17,6 +17,8 @@ Deadlift: {{input valueBinding="deadMax"}}
 
 <button {{action "calculateLifts"}}> Calculate </button>
 
+<br>
+
 {{#if isCalculated}}
  <h3> Results </h3>
  <ul>
@@ -26,4 +28,8 @@ Deadlift: {{input valueBinding="deadMax"}}
    <li> and {{deadClass}} in Deadlifts </li>
    <li> Your Wilks score is: {{wilks}} </li>
  </ul>
+
 {{/if}}
+<canvas id="canvas" width=500 height=500>
+  Your browser does not support HTML canvas! Can't display body graph!
+</canvas>

@@ -1,9 +1,17 @@
 import Ember from 'ember';
 
+const untrainedRGB = [51, 193, 255]; //light blie
+const noviceRGB = [15, 8, 130]; //dark blue
+const intermediateRGB = [52, 255, 40]; //light greenv
+const advancedRGB = [13, 109, 7]; //dark green
+const eliteRGB = [250, 71, 71]; //light red
+const unknownRGB = [255, 255, 255]; //white
+
 export default Ember.Controller.extend({
   actions: {
     calculateLifts() {
-      this.toggleProperty('isCalculated');
+      //if validate input TODO
+      this.set('isCalculated', true);
       let bench = parseInt(this.get('benchMax'));
       let squat = parseInt(this.get('squatMax'));
       let deadlift = parseInt(this.get('deadMax'));
@@ -11,64 +19,88 @@ export default Ember.Controller.extend({
 
       let weight = parseInt(this.get('weight'));
 
+      //used for color coding body diagram
+      let benchRate, squatRate, deadRate;
+      let benchColor, squatColor, deadColor;
       //all classifications estimated through exrx
       //http://www.exrx.net/Testing/WeightLifting/StrengthStandards.html
       if(bench < 0.75*weight) {
-        this.set('benchClass', 'Untrained');
+        benchRate = 'Untrained';
+        benchColor = untrainedRGB;
       }
       else if(bench >= 0.75*weight && bench < weight) {
-        this.set('benchClass', 'Novice');
+        benchRate = 'Novice';
+        benchColor = noviceRGB;
       }
       else if(bench >= weight && bench < 1.25*weight) {
-        this.set('benchClass', 'Intermediate');
+        benchRate = 'Intermediate';
+        benchColor = intermediateRGB;
       }
       else if(bench >= 1.25*weight && bench < 2*weight) {
-        this.set('benchClass', 'Advanced');
+        benchRate = 'Advanced';
+        benchColor = advancedRGB;
       }
       else if(bench >= 2*weight) {
-        this.set('benchClass', 'Elite');
+        benchRate = 'Elite';
+        benchColor = eliteRGB;
       }
       else {
-        this.set('benchClass', 'Unknown');
+        benchRate = 'Unknown';
+        benchColor = unknownRGB;
       }
+      this.set('benchClass', benchRate);
 
       if(squat < weight) {
-        this.set('squatClass', 'Untrained');
+        squatRate = 'Untrained';
+        squatColor = untrainedRGB;
       }
       else if(squat >= weight && squat < weight*1.5) {
-        this.set('squatClass', 'Novice');
+        squatRate = 'Novice';
+        squatColor = noviceRGB;
       }
       else if(squat >= weight*1.5 && squat < weight*2) {
-        this.set('squatClass', 'Intermediate');
+        squatRate = 'Intermediate';
+        squatColor = intermediateRGB;
       }
       else if(squat >= 2*weight && squat < 2.5*weight) {
-        this.set('squatClass', 'Advanced');
+        squatRate = 'Advanced';
+        squatColor = advancedRGB;
       }
       else if(squat >= 2.5*weight) {
-        this.set('squatClass', 'Elite');
+        squatRate = 'Elite';
+        squatColor = eliteRGB;
       }
       else {
-        this.set('squatClass', 'Unknown');
+        squatRate = 'Unknown';
+        squatColor = unknownRGB;
       }
+      this.set('squatClass', squatRate);
 
       if(deadlift < weight) {
-        this.set('deadClass', 'Untrained');
+        deadRate = 'Untrained';
+        deadColor = untrainedRGB;
       }
       else if(deadlift >= weight && deadlift < weight*1.5) {
-        this.set('deadClass', 'Novice');
+        deadRate = 'Novice';
+        deadColor = noviceRGB;
       }
       else if(deadlift >= weight*1.5 && deadlift < weight*2) {
-        this.set('deadClass', 'Intermediate');
+        deadRate = 'Intermediate';
+        deadColor = intermediateRGB;
       }
       else if(deadlift >= 2*weight && deadlift < 2.5*weight) {
-        this.set('deadClass', 'Advanced');
+        deadRate = 'Advanced';
+        deadColor = advancedRGB;
       }
       else if(deadlift >= 2.5*weight) {
-        this.set('deadClass', 'Elite');
+        deadRate = 'Elite';
+        deadColor = eliteRGB;
       }
       else {
-        this.set('deadClass', 'Unknown');
+        deadRate = 'Unknown';
+        deadColor = unknownRGB;
       }
+      this.set('deadClass', deadRate);
 
         //Wilks
         //for men, TODO women, gotta be a better way than this
@@ -80,6 +112,56 @@ export default Ember.Controller.extend({
           weightKG*weightKG*weightKG*weightKG*weightKG*-0.00000001291);
           this.set('wilks', wilks);
 
+      //set body graph
+      let canvas = document.getElementById("canvas");
+      let ctx = canvas.getContext("2d");
+
+      var img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = draw;
+      img.src = 'http://i.imgur.com/x75ImHx.png';
+
+      function draw() {
+        ctx.drawImage(img, 0, 0);
+        console.log("image drawn");
+
+        let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        let data = imgData.data;
+
+        let red, green, blue, alpha;
+        for(let i = 0; i < data.length; i+=4) {
+          red = data[i+0];
+          green = data[i+1];
+          blue = data[i+2];
+          alpha = data[i+3];
+
+          if(red > 200 && green < 100 && blue < 100) {
+            //bench muscles
+            data[i] = benchColor[0];
+            data[i+1] = benchColor[1];
+            data[i+2] = benchColor[2];
+
+          }
+
+          else if(red < 100 && green < 50 && blue > 200) {
+            //dl muscles
+            data[i] = deadColor[0];
+            data[i+1] = deadColor[1];
+            data[i+2] = deadColor[2];
+          }
+
+          else if(red < 100 && green > 200 && blue < 100) {
+            //squat muscles
+            data[i] = squatColor[0];
+            data[i+1] = squatColor[1];
+            data[i+2] = squatColor[2];
+          }
+
+
+        }
+
+        ctx.putImageData(imgData, 0, 0);
+      }
     }
   }
 });
