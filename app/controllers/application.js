@@ -105,14 +105,13 @@ export default Ember.Controller.extend({
         //Wilks
         //for men, TODO women, gotta be a better way than this
         //oh, it's also incorrect TOFIX
-        let weightKG = weight/2.2;
-        let wilks = (bench+squat+deadlift) / (-216.0475144 + weightKG*16.2606339 +
-          weightKG*weightKG*-0.002388645 + weightKG*weightKG*weightKG*-0.00113732 +
-          weightKG*weightKG*weightKG*weightKG*0.00000701863 +
-          weightKG*weightKG*weightKG*weightKG*weightKG*-0.00000001291);
-          this.set('wilks', wilks);
+      let weightKG = weight/2.2;
+      let wilks = (bench+squat+deadlift) / (-216.0475144 + weightKG*16.2606339 +
+        weightKG*weightKG*-0.002388645 + weightKG*weightKG*weightKG*-0.00113732 +
+        weightKG*weightKG*weightKG*weightKG*0.00000701863 +
+        weightKG*weightKG*weightKG*weightKG*weightKG*-0.00000001291);
+        this.set('wilks', wilks);
 
-      //set body graph
       let canvas = document.getElementById("canvas");
       let ctx = canvas.getContext("2d");
 
@@ -122,6 +121,9 @@ export default Ember.Controller.extend({
       img.src = 'http://i.imgur.com/x75ImHx.png';
 
       function draw() {
+        //set body graph
+
+
         ctx.drawImage(img, 0, 0);
         console.log("image drawn");
 
