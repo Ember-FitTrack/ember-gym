@@ -1,18 +1,19 @@
 <h2> Ember Gym App </h2>
 
-Age: {{input}}
+Age: {{input value=age}}
 <br>
 Weight: {{input value=weight}}
 <br>
-Height(in): {{input}}
+Height(in): {{input value=height}}
 <br>
 
 <h3> Lifts </h3>
 
-Bench Press: {{input value=benchMax}}
-Squat: {{input value=squatMax}}
-Deadlift: {{input value=deadMax}}
+Bench Press: {{input value=benchMax action="calculateLifts"}}
+Squat: {{input value=squatMax action="calculateLifts"}}
+Deadlift: {{input value=deadMax action="calculateLifts"}}
 
+<br>
 <br>
 
 <button {{action "calculateLifts"}}> Calculate </button>
@@ -23,9 +24,9 @@ Deadlift: {{input value=deadMax}}
  <h3> Results </h3>
  <ul>
    <li> Estimated total: {{liftTotal}} </li>
-   <li> You are {{benchClass}} in Bench Press </li>
+   <li> {{benchClass}} in Bench Press </li>
    <li> {{squatClass}} in Squats </li>
-   <li> and {{deadClass}} in Deadlifts </li>
+   <li> {{deadClass}} in Deadlifts </li>
    <li> Your Wilks score is: {{wilks}} </li>
  </ul>
 
