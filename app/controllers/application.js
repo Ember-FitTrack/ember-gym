@@ -8,7 +8,27 @@ const eliteRGB = [250, 71, 71]; //light red
 const unknownRGB = [255, 255, 255]; //white
 
 export default Ember.Controller.extend({
+  ajax: Ember.inject.service(),
   actions: {
+    sendRequest() {
+      let age = parseInt(this.get('age'));
+      let bench = parseInt(this.get('benchMax'));
+      let squat = parseInt(this.get('squatMax'));
+      let deadlift = parseInt(this.get('deadMax'));
+
+      return this.get('ajax').request('/lifts', {
+        method: 'POST',
+        data: {
+          age: age,
+          weight: 200,
+          height: 66,
+          male: true,
+          bench: bench,
+          squat: squat,
+          deadlift: deadlift
+        }
+      });
+    },
     calculateLifts() {
       //if validate input TODO
       this.set('isCalculated', true);
@@ -123,6 +143,8 @@ export default Ember.Controller.extend({
       img.crossOrigin = "anonymous";
       img.onload = draw;
       img.src = 'muscleMale.png';
+
+
 
       function draw() {
         //set body graph

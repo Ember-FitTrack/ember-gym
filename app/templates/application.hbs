@@ -26,10 +26,12 @@ Deadlift: {{input value=deadMax enter="calculateLifts"}}
 <br>
 
 <button {{action "calculateLifts"}}> Calculate </button>
+<br>
 
 <br>
 
 {{#if isCalculated}}
+<button {{action "sendRequest"}}> Send Result </button>
  <h3> Results </h3>
  <ul>
    <li> Estimated total: {{liftTotal}} </li>
