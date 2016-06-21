@@ -17,6 +17,10 @@ export default Ember.Controller.extend({
       let deadlift = parseInt(this.get('deadMax'));
       this.set('liftTotal', bench+squat+deadlift);
 
+      let sex = this.get('sex');
+      console.log(sex);
+      this.set('sex', sex);
+
       let weight = parseInt(this.get('weight'));
 
       //used for color coding body diagram
@@ -118,7 +122,7 @@ export default Ember.Controller.extend({
       var img = new Image();
       img.crossOrigin = "anonymous";
       img.onload = draw;
-      img.src = 'http://i.imgur.com/x75ImHx.png';
+      img.src = 'muscleMale.png';
 
       function draw() {
         //set body graph

@@ -1,5 +1,5 @@
 <head>
-  <link rel="icon" href="http://files.softicons.com/download/toolbar-icons/free-blue-button-icons-by-aha-soft/png/32x32/barbell.png?" type="image/x-icon">
+  <link rel="icon" href="ember-gymicon.png" type="image/png">
 </head>
 
 <h2> Ember Gym App </h2>
@@ -10,12 +10,17 @@ Weight: {{input value=weight}}
 <br>
 Height(in): {{input value=height}}
 <br>
+Sex: <select >
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+     </select>
+
 
 <h3> Lifts </h3>
 
-Bench Press: {{input value=benchMax action="calculateLifts"}}
-Squat: {{input value=squatMax action="calculateLifts"}}
-Deadlift: {{input value=deadMax action="calculateLifts"}}
+Bench Press: {{input value=benchMax enter="calculateLifts"}}
+Squat: {{input value=squatMax enter="calculateLifts"}}
+Deadlift: {{input value=deadMax enter="calculateLifts"}}
 
 <br>
 <br>
@@ -32,6 +37,7 @@ Deadlift: {{input value=deadMax action="calculateLifts"}}
    <li> {{squatClass}} in Squats </li>
    <li> {{deadClass}} in Deadlifts </li>
    <li> Your Wilks score is: {{wilks}} </li>
+   <li> Sex is: {{sex}} </li>
  </ul>
 
 {{/if}}
