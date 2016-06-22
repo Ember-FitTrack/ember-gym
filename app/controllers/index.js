@@ -47,7 +47,9 @@ export default Ember.Controller.extend({
       this.set('sexResult', sex);
 
       let weight = parseInt(this.get('weight'));
-
+      let height = parseInt(this.get('height'));
+      let age = parseInt(this.get('age'));
+      
       //used for color coding body diagram
       let benchRate, squatRate, deadRate;
       let benchColor, squatColor, deadColor;
@@ -140,6 +142,39 @@ export default Ember.Controller.extend({
         weightKG*weightKG*weightKG*weightKG*0.00000701863 +
         weightKG*weightKG*weightKG*weightKG*weightKG*-0.00000001291);
         this.set('wilks', wilks);
+
+      //bmi calculation
+      let bmi = (weight * 703) / (height * height);
+      let bmiRank;
+
+      if(bmi < 18.5)
+        bmiRank = 'Underweight';
+      else if(bmi >= 18.5 && bmi <= 24.9)
+        bmiRank = 'Normal Weight';
+      else if(bmi >= 25.0 && bmi <= 29.9)
+        bmiRank = 'Overweight';
+      else if(bmi >= 30.0)
+        bmiRank = 'Obese';
+      else
+        bmiRank = 'Unknown';
+
+      this.set('bmi', bmi);
+      this.set('bmiRank', bmiRank);
+
+      //bmr
+      let bmr;
+
+      if(sex === 'Male')
+        bmr = 66 + (6.23 * weight) + (12.7 * height) - (6.8 * age);
+
+      else if(sex === 'Female')
+        bmr = 655 + (4.35 * weight) + (4.7 * height) - (4.7 * age);
+
+      else
+        bmr = 'Unknown';
+
+      console.log(bmr);
+      this.set('bmr', bmr);
 
       let canvas = document.getElementById("canvas");
       let ctx = canvas.getContext("2d");
