@@ -11,10 +11,9 @@ Weight: {{input value=weight}}
 <br>
 Height(in): {{input value=height}}
 <br>
-Sex: <select >
-      <option value="male">Male</option>
-      <option value="female">Female</option>
-     </select>
+Sex:
+{{radio-button value=true checked=sex}} Male
+{{radio-button value=false checked=sex}} Female
 
 
 <h3> Lifts </h3>
@@ -26,13 +25,12 @@ Deadlift: {{input value=deadMax enter="calculateLifts"}}
 <br>
 <br>
 
-<button {{action "calculateLifts"}}> Calculate </button>
+<button {{action "calculateLifts"}} > Calculate </button>
 <br>
 
 <br>
 
 {{#if isCalculated}}
-<button {{action "sendRequest"}}> Send Result </button>
  <h3> Results </h3>
  <ul>
    <li> Estimated total: {{liftTotal}} </li>

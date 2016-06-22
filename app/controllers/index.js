@@ -16,13 +16,15 @@ export default Ember.Controller.extend({
       let squat = parseInt(this.get('squatMax'));
       let deadlift = parseInt(this.get('deadMax'));
       let total = bench + squat + deadlift;
+      let sex = this.get('sex');
+      sex = (sex ? 'Male' : 'Female');
       return this.get('ajax').request('/lifts', {
         method: 'POST',
         data: {
           age: age,
           weight: 200,
           height: 66,
-          male: true,
+          sex: sex,
           bench: bench,
           squat: squat,
           deadlift: deadlift,
@@ -39,7 +41,7 @@ export default Ember.Controller.extend({
       this.set('liftTotal', bench+squat+deadlift);
 
       let sex = this.get('sex');
-      console.log(sex);
+      sex = (sex ? 'Male' : 'Female');
       this.set('sex', sex);
 
       let weight = parseInt(this.get('weight'));
@@ -145,7 +147,7 @@ export default Ember.Controller.extend({
       img.onload = draw;
       img.src = 'muscleMale.png';
 
-
+      this.send('sendRequest');
 
       function draw() {
         //set body graph

@@ -6,7 +6,7 @@ export default Model.extend({
   age: attr('number'),
   weight: attr('number'),
   height: attr('number'),
-  male: attr('boolean'),
+  sex: attr('string'),
   bench: attr('number'),
   squat: attr('number'),
   deadlift: attr('number'),
