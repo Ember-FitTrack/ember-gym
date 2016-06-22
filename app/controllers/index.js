@@ -44,7 +44,7 @@ export default Ember.Controller.extend({
 
       let sex = this.get('sex');
       sex = (sex===true ? 'Male' : 'Female');
-      this.set('sex', sex);
+      this.set('sexResult', sex);
 
       let weight = parseInt(this.get('weight'));
 
