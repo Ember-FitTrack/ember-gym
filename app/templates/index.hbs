@@ -1,9 +1,10 @@
 <head>
   <link rel="icon" href="ember-gymicon.png" type="image/png">
+
 </head>
 
 <h2> Ember Gym App </h2>
-
+<a href="/lift"> Lift Records </a> <br/>
 Age: {{input value=age}}
 <br>
 Weight: {{input value=weight}}
@@ -46,3 +47,5 @@ Deadlift: {{input value=deadMax enter="calculateLifts"}}
 <canvas id="canvas" width=500 height=500>
   Your browser does not support HTML canvas! Can't display body graph!
 </canvas>
+
+{{outlet}}

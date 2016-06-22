@@ -1,6 +1,13 @@
 Lifts!<br/>
-{{#each model as |lift|}}
-Age: {{lift.age}}<br/>
-Bench: {{lift.bench}}<br/>
 
+
+{{#each model as |lift|}}
+  <div class="liftRecord">
+    Age: {{lift.age}} <br/>
+    Weight: {{lift.weight}} <br/>
+    Bench Press: {{lift.bench}} <br/>
+    Squat: {{lift.squat}} <br/>
+    Deadlift: {{lift.deadlift}} <br/>
+    <strong> Total: {{lift.total}}</strong>
+  </div>
 {{/each}}

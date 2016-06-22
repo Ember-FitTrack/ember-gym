@@ -15,7 +15,7 @@ export default Ember.Controller.extend({
       let bench = parseInt(this.get('benchMax'));
       let squat = parseInt(this.get('squatMax'));
       let deadlift = parseInt(this.get('deadMax'));
-
+      let total = bench + squat + deadlift;
       return this.get('ajax').request('/lifts', {
         method: 'POST',
         data: {
@@ -25,7 +25,8 @@ export default Ember.Controller.extend({
           male: true,
           bench: bench,
           squat: squat,
-          deadlift: deadlift
+          deadlift: deadlift,
+          total: total
         }
       });
     },

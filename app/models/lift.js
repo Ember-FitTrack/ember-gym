@@ -9,5 +9,6 @@ export default Model.extend({
   male: attr('boolean'),
   bench: attr('number'),
   squat: attr('number'),
-  deadlift: attr('number')
+  deadlift: attr('number'),
+  total: attr('number')
 });
