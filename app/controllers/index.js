@@ -12,18 +12,20 @@ export default Ember.Controller.extend({
   actions: {
     sendRequest() {
       let age = parseInt(this.get('age'));
+      let weight = parseInt(this.get('weight'));
+      let height = parseInt(this.get('height'));
       let bench = parseInt(this.get('benchMax'));
       let squat = parseInt(this.get('squatMax'));
       let deadlift = parseInt(this.get('deadMax'));
       let total = bench + squat + deadlift;
       let sex = this.get('sex');
-      sex = (sex ? 'Male' : 'Female');
+      sex = (sex===true ? 'Male' : 'Female');
       return this.get('ajax').request('/lifts', {
         method: 'POST',
         data: {
           age: age,
-          weight: 200,
-          height: 66,
+          weight: weight,
+          height: height,
           sex: sex,
           bench: bench,
           squat: squat,
@@ -41,7 +43,7 @@ export default Ember.Controller.extend({
       this.set('liftTotal', bench+squat+deadlift);
 
       let sex = this.get('sex');
-      sex = (sex ? 'Male' : 'Female');
+      sex = (sex===true ? 'Male' : 'Female');
       this.set('sex', sex);
 
       let weight = parseInt(this.get('weight'));
