@@ -6,3 +6,32 @@
   background: #ffffb0;
 
 }
+
+.scaleColor {
+  float: top;
+  width: 50px;
+  height: 50px;
+  display: table-cell;
+  border:1px solid black;
+  color: #ffffff;
+}
+
+#scaleUntrained {
+  background-color: #33C1FF;
+}
+
+#scaleNovice {
+  background-color: #0F0882;
+}
+
+#scaleIntermediate {
+  background-color: #34FF28;
+}
+
+#scaleAdvanced {
+  background-color: #0D6D07;
+}
+
+#scaleElite {
+  background-color: #FA4747;
+}

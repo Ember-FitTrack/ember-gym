@@ -13,7 +13,7 @@ const wilksMenB = 16.2606339;
 const wilksMenC = -0.002388645;
 const wilksMenD = -0.00113732;
 const wilksMenE = 0.00000701863;
-const wilksMenF = -0.00000001291
+const wilksMenF = -0.00000001291;
 
 const wilksFemaleA = 594.31747775582;
 const wilksFemaleB = -27.23842536447;
@@ -155,16 +155,16 @@ export default Ember.Controller.extend({
 
       if(sex === 'Male') {
         wilks = 500 / (wilksMenA + (wilksMenB * weightKG) +
-          (wilksMenC * Math.pow(weightKG, 2)) + (wilksMenD * Math.pow(weightKG, 3))
-          + (wilksMenE * Math.pow(weightKG, 4)) + (wilksMenF * Math.pow(weightKG, 5)));
+          (wilksMenC * Math.pow(weightKG, 2)) + (wilksMenD * Math.pow(weightKG, 3)) +
+          (wilksMenE * Math.pow(weightKG, 4)) + (wilksMenF * Math.pow(weightKG, 5)));
 
         bmr = 66 + (6.23 * weight) + (12.7 * height) - (6.8 * age);
       }
 
       else if (sex === 'Female') {
         wilks = 500 / (wilksFemaleA + (wilksFemaleB * weightKG) +
-          (wilksFemaleC * Math.pow(weightKG, 2)) + (wilksFemaleD * Math.pow(weightKG, 3))
-          + (wilksFemaleE * Math.pow(weightKG, 4)) + (wilksFemaleF * Math.pow(weightKG, 5)));
+          (wilksFemaleC * Math.pow(weightKG, 2)) + (wilksFemaleD * Math.pow(weightKG, 3)) +
+          (wilksFemaleE * Math.pow(weightKG, 4)) + (wilksFemaleF * Math.pow(weightKG, 5)));
 
         bmr = 655 + (4.35 * weight) + (4.7 * height) - (4.7 * age);
       }
@@ -183,16 +183,21 @@ export default Ember.Controller.extend({
       let bmi = (weight * 703) / (height * height);
       let bmiRank;
 
-      if(bmi < 18.5)
+      if (bmi < 18.5) {
         bmiRank = 'Underweight';
-      else if(bmi >= 18.5 && bmi <= 24.9)
+      }
+      else if (bmi >= 18.5 && bmi <= 24.9) {
         bmiRank = 'Normal Weight';
-      else if(bmi >= 25.0 && bmi <= 29.9)
+      }
+      else if (bmi >= 25.0 && bmi <= 29.9) {
         bmiRank = 'Overweight';
-      else if(bmi >= 30.0)
+      }
+      else if (bmi >= 30.0) {
         bmiRank = 'Obese';
-      else
+      }
+      else {
         bmiRank = 'Unknown';
+      }
 
       this.set('bmi', bmi);
       this.set('bmiRank', bmiRank);
