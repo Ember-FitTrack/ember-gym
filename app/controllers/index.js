@@ -7,6 +7,21 @@ const advancedRGB = [13, 109, 7]; //dark green
 const eliteRGB = [250, 71, 71]; //light red
 const unknownRGB = [255, 255, 255]; //white
 
+//coefficients for wilks calculations
+const wilksMenA = -216.0475144;
+const wilksMenB = 16.2606339;
+const wilksMenC = -0.002388645;
+const wilksMenD = -0.00113732;
+const wilksMenE = 0.00000701863;
+const wilksMenF = -0.00000001291
+
+const wilksFemaleA = 594.31747775582;
+const wilksFemaleB = -27.23842536447;
+const wilksFemaleC = 0.82112226871;
+const wilksFemaleD = -0.00930733913;
+const wilksFemaleE = 0.00004731582;
+const wilksFemaleF = -0.00000009054;
+
 export default Ember.Controller.extend({
   ajax: Ember.inject.service(),
   actions: {
@@ -49,7 +64,7 @@ export default Ember.Controller.extend({
       let weight = parseInt(this.get('weight'));
       let height = parseInt(this.get('height'));
       let age = parseInt(this.get('age'));
-      
+
       //used for color coding body diagram
       let benchRate, squatRate, deadRate;
       let benchColor, squatColor, deadColor;
@@ -133,15 +148,36 @@ export default Ember.Controller.extend({
       }
       this.set('deadClass', deadRate);
 
-        //Wilks
-        //for men, TODO women, gotta be a better way than this
-        //oh, it's also incorrect TOFIX
+      //Do gender-dependent calculations together Wilks/BMR
       let weightKG = weight/2.2;
-      let wilks = (bench+squat+deadlift) / (-216.0475144 + weightKG*16.2606339 +
-        weightKG*weightKG*-0.002388645 + weightKG*weightKG*weightKG*-0.00113732 +
-        weightKG*weightKG*weightKG*weightKG*0.00000701863 +
-        weightKG*weightKG*weightKG*weightKG*weightKG*-0.00000001291);
-        this.set('wilks', wilks);
+      let wilks;
+      let bmr;
+
+      if(sex === 'Male') {
+        wilks = 500 / (wilksMenA + (wilksMenB * weightKG) +
+          (wilksMenC * Math.pow(weightKG, 2)) + (wilksMenD * Math.pow(weightKG, 3))
+          + (wilksMenE * Math.pow(weightKG, 4)) + (wilksMenF * Math.pow(weightKG, 5)));
+
+        bmr = 66 + (6.23 * weight) + (12.7 * height) - (6.8 * age);
+      }
+
+      else if (sex === 'Female') {
+        wilks = 500 / (wilksFemaleA + (wilksFemaleB * weightKG) +
+          (wilksFemaleC * Math.pow(weightKG, 2)) + (wilksFemaleD * Math.pow(weightKG, 3))
+          + (wilksFemaleE * Math.pow(weightKG, 4)) + (wilksFemaleF * Math.pow(weightKG, 5)));
+
+        bmr = 655 + (4.35 * weight) + (4.7 * height) - (4.7 * age);
+      }
+
+      else {
+        wilks = 'Unknown';
+        bmr = 'Unknown';
+      }
+
+      wilks = wilks * ((bench+squat+deadlift)/2.2);
+      this.set('wilks', wilks);
+
+      this.set('bmr', bmr);
 
       //bmi calculation
       let bmi = (weight * 703) / (height * height);
@@ -160,21 +196,6 @@ export default Ember.Controller.extend({
 
       this.set('bmi', bmi);
       this.set('bmiRank', bmiRank);
-
-      //bmr
-      let bmr;
-
-      if(sex === 'Male')
-        bmr = 66 + (6.23 * weight) + (12.7 * height) - (6.8 * age);
-
-      else if(sex === 'Female')
-        bmr = 655 + (4.35 * weight) + (4.7 * height) - (4.7 * age);
-
-      else
-        bmr = 'Unknown';
-
-      console.log(bmr);
-      this.set('bmr', bmr);
 
       let canvas = document.getElementById("canvas");
       let ctx = canvas.getContext("2d");
