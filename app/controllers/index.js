@@ -22,9 +22,16 @@ const wilksFemaleD = -0.00930733913;
 const wilksFemaleE = 0.00004731582;
 const wilksFemaleF = -0.00000009054;
 
+
 export default Ember.Controller.extend({
   ajax: Ember.inject.service(),
   actions: {
+    validateInput() {
+
+
+      console.log('hello stats');
+      this.send('calculateLifts');
+    },
     sendRequest() {
       let age = parseInt(this.get('age'));
       let weight = parseInt(this.get('weight'));
@@ -32,9 +39,10 @@ export default Ember.Controller.extend({
       let bench = parseInt(this.get('benchMax'));
       let squat = parseInt(this.get('squatMax'));
       let deadlift = parseInt(this.get('deadMax'));
-      let total = bench + squat + deadlift;
       let sex = this.get('sex');
+
       sex = (sex===true ? 'Male' : 'Female');
+      let total = bench + squat + deadlift;
       return this.get('ajax').request('/lifts', {
         method: 'POST',
         data: {
@@ -50,20 +58,56 @@ export default Ember.Controller.extend({
       });
     },
     calculateLifts() {
-      //if validate input TODO
-      this.set('isCalculated', true);
+
+      let age = parseInt(this.get('age'));
+      let weight = parseInt(this.get('weight'));
+      let height = parseInt(this.get('height'));
       let bench = parseInt(this.get('benchMax'));
       let squat = parseInt(this.get('squatMax'));
       let deadlift = parseInt(this.get('deadMax'));
-      this.set('liftTotal', bench+squat+deadlift);
-
       let sex = this.get('sex');
+
+      let errors = false;
+
+      Ember.$('.error').css('visibility', 'hidden');
+      if(!age) {
+        Ember.$('#ageError').css('visibility', 'visible');
+        errors = true;
+      }
+      if(!weight) {
+        Ember.$('#weightError').css('visibility', 'visible');
+        errors = true;
+      }
+      if(!height) {
+        Ember.$('#heightError').css('visibility', 'visible');
+        errors = true;
+      }
+      if(!bench) {
+        Ember.$('#benchError').css('visibility', 'visible');
+        errors = true;
+      }
+      if(!squat) {
+        Ember.$('#squatError').css('visibility', 'visible');
+        errors = true;
+      }
+      if(!deadlift) {
+        Ember.$('#deadliftError').css('visibility', 'visible');
+        errors = true;
+      }
+      if(!sex) {
+        Ember.$('#sexError').css('visibility', 'visible');
+        errors = true;
+      }
+      if(errors) {
+        return;
+      }
+
+      this.set('isCalculated', true);
+      this.set('liftTotal', bench+squat+deadlift);
       sex = (sex===true ? 'Male' : 'Female');
       this.set('sexResult', sex);
 
-      let weight = parseInt(this.get('weight'));
-      let height = parseInt(this.get('height'));
-      let age = parseInt(this.get('age'));
+
 
       //used for color coding body diagram
       let benchRate, squatRate, deadRate;

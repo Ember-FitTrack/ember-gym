@@ -16,6 +16,9 @@
   color: #ffffff;
 }
 
+.error {
+  color: red;
+}
 #scaleUntrained {
   background-color: #33C1FF;
 }
@@ -34,4 +37,32 @@
 
 #scaleElite {
   background-color: #FA4747;
+}
+
+#ageError {
+  visibility: hidden;
+}
+
+#weightError {
+  visibility: hidden;
+}
+
+#heightError {
+  visibility: hidden;
+}
+
+#sexError {
+  visibility: hidden;
+}
+
+#benchError {
+  visibility: hidden;
+}
+
+#squatError {
+  visibility: hidden;
+}
+
+#deadliftError {
+  visibility: hidden;
 }
