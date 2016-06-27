@@ -1,31 +1,31 @@
 <head>
   <link rel="icon" href="ember-gymicon.png" type="image/png">
   <title> FitTrack </title>
-
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-
-  <!-- Optional theme -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-
 </head>
 <body>
   {{nav-bar}}
   <div class="container">
     <form>
       <h1> FitTrack </h1>
+      Units:
+      {{radio-button value=true checked=units}} Imperial(lbs/in)
+      {{radio-button value=false checked=units}} Metric(kg/cm)
+        <div id="unitsError" class="error"> Please select a unit! </div>
+      <br>
+
       Age: {{input value=age class="form-control"}}
         <div id="ageError" class="error"> Please enter a valid age! </div>
 
       Weight: {{input value=weight class="form-control"}}
         <div id="weightError" class="error"> Please enter a valid weight! </div>
 
-      Height(in): {{input value=height class="form-control"}}
+      Height: {{input value=height class="form-control"}}
         <div id="heightError" class="error"> Please enter a valid height! </div>
 
       Sex:
       {{radio-button value=true checked=sex}} Male
       {{radio-button value=false checked=sex}} Female
-        <div id="sexError" class="error"> Please enter a valid sex! </div>
+        <div id="sexError" class="error"> Please select a sex! </div>
 
       <h2> Lifts </h2>
 

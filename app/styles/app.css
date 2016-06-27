@@ -66,3 +66,7 @@
 #deadliftError {
   visibility: hidden;
 }
+
+#unitsError {
+  visibility: hidden;
+}

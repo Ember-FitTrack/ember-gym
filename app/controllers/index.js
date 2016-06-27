@@ -58,7 +58,7 @@ export default Ember.Controller.extend({
       });
     },
     calculateLifts() {
-
+      let units = this.get('units');
       let age = parseInt(this.get('age'));
       let weight = parseInt(this.get('weight'));
       let height = parseInt(this.get('height'));
@@ -70,6 +70,10 @@ export default Ember.Controller.extend({
       let errors = false;
 
       Ember.$('.error').css('visibility', 'hidden');
+      if(units == null) {
+        Ember.$('#unitsError').css('visibility', 'visible');
+        errors = true;
+      }
       if(!age) {
         Ember.$('#ageError').css('visibility', 'visible');
         errors = true;
@@ -94,7 +98,7 @@ export default Ember.Controller.extend({
         Ember.$('#deadliftError').css('visibility', 'visible');
         errors = true;
       }
-      if(!sex) {
+      if(sex == null) {
         Ember.$('#sexError').css('visibility', 'visible');
         errors = true;
       }
@@ -104,11 +108,17 @@ export default Ember.Controller.extend({
 
       this.set('isCalculated', true);
       this.set('liftTotal', bench+squat+deadlift);
+
       sex = (sex===true ? 'Male' : 'Female');
       this.set('sexResult', sex);
 
-
-
+      if(!units) {
+        weight *= 2.2;
+        bench *= 2.2;
+        squat *= 2.2;
+        deadlift *= 2.2;
+        height *= 0.393701;
+      }
       //used for color coding body diagram
       let benchRate, squatRate, deadRate;
       let benchColor, squatColor, deadColor;
@@ -219,7 +229,7 @@ export default Ember.Controller.extend({
       }
 
       wilks = wilks * ((bench+squat+deadlift)/2.2);
-      this.set('wilks', wilks);
+      this.set('wilks', wilks.toFixed(2));
 
       this.set('bmr', bmr);
 
@@ -243,7 +253,7 @@ export default Ember.Controller.extend({
         bmiRank = 'Unknown';
       }
 
-      this.set('bmi', bmi);
+      this.set('bmi', bmi.toFixed(2));
       this.set('bmiRank', bmiRank);
 
       let canvas = document.getElementById("canvas");
