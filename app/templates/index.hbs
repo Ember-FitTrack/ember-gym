@@ -1,57 +1,63 @@
 <head>
   <link rel="icon" href="ember-gymicon.png" type="image/png">
+  <title> FitTrack </title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 
 </head>
+<body>
+  {{nav-bar}}
+  <div class="container">
+    <form>
+      <h1> FitTrack </h1>
+      Age: {{input value=age class="form-control"}}
+        <div id="ageError" class="error"> Please enter a valid age! </div>
 
-<h2> FitTrack </h2>
-<a href="/lift"> Lift Records </a> <br/>
-Age: {{input value=age}}
-  <div id="ageError" class="error"> Please enter a valid age! </div>
-<br>
-Weight: {{input value=weight}}
-  <div id="weightError" class="error"> Please enter a valid weight! </div>
-<br>
-Height(in): {{input value=height}}
-  <div id="heightError" class="error"> Please enter a valid height! </div>
-<br>
-Sex:
-{{radio-button value=true checked=sex}} Male
-{{radio-button value=false checked=sex}} Female
-  <div id="sexError" class="error"> Please enter a valid sex! </div>
+      Weight: {{input value=weight class="form-control"}}
+        <div id="weightError" class="error"> Please enter a valid weight! </div>
 
-<h3> Lifts </h3>
+      Height(in): {{input value=height class="form-control"}}
+        <div id="heightError" class="error"> Please enter a valid height! </div>
 
-Bench Press: {{input value=benchMax enter="calculateLifts"}}
-  <div id="benchError" class="error"> Please enter a valid bench press! </div>
-Squat: {{input value=squatMax enter="calculateLifts"}}
-  <div id="squatError" class="error"> Please enter a valid squat! </div>
-Deadlift: {{input value=deadMax enter="calculateLifts"}}
-  <div id="deadliftError" class="error"> Please enter a valid deadlift! </div>
+      Sex:
+      {{radio-button value=true checked=sex}} Male
+      {{radio-button value=false checked=sex}} Female
+        <div id="sexError" class="error"> Please enter a valid sex! </div>
 
-<br>
-<br>
+      <h2> Lifts </h2>
 
-<button {{action "validateInput"}} > Calculate </button>
-<br>
+      Bench Press: {{input value=benchMax enter="calculateLifts" class="form-control"}}
+        <div id="benchError" class="error"> Please enter a valid bench press! </div>
+      Squat: {{input value=squatMax enter="calculateLifts" class="form-control"}}
+        <div id="squatError" class="error"> Please enter a valid squat! </div>
+      Deadlift: {{input value=deadMax enter="calculateLifts" class="form-control"}}
+        <div id="deadliftError" class="error"> Please enter a valid deadlift! </div>
 
-<br>
+      <button {{action "validateInput"}} > Calculate </button>
+    </form>
 
-{{#if isCalculated}}
- <h3> Results </h3>
- <ul>
-   <li> Estimated total: {{liftTotal}} </li>
-   <li> {{benchClass}} in Bench Press </li>
-   <li> {{squatClass}} in Squats </li>
-   <li> {{deadClass}} in Deadlifts </li>
-   <li> Your Wilks score is: {{wilks}} </li>
-   <li> Sex is: {{sexResult}} </li>
-   <li> Your BMI is {{bmi}} making you {{bmiRank}} </li>
-   <li> Your BMR is roughly {{bmr}} </li>
- </ul>
-{{color-scale}}
-{{/if}}
-<canvas id="canvas" width=500 height=500>
-  Your browser does not support HTML canvas! Can't display body graph!
-</canvas>
 
+
+    {{#if isCalculated}}
+     <h3> Results </h3>
+     <ul>
+       <li> Estimated total: {{liftTotal}} </li>
+       <li> {{benchClass}} in Bench Press </li>
+       <li> {{squatClass}} in Squats </li>
+       <li> {{deadClass}} in Deadlifts </li>
+       <li> Your Wilks score is: {{wilks}} </li>
+       <li> Sex is: {{sexResult}} </li>
+       <li> Your BMI is {{bmi}} making you {{bmiRank}} </li>
+       <li> Your BMR is roughly {{bmr}} </li>
+     </ul>
+    {{color-scale}}
+    {{/if}}
+    <canvas id="canvas" width=500 height=500>
+      Your browser does not support HTML canvas! Can't display body graph!
+    </canvas>
+  </div>
+</body>
 {{outlet}}
