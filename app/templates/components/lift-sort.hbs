@@ -1,0 +1,28 @@
+{{yield}}
+  <div class="container">
+    Sort by
+    {{radio-button value='age' checked=sortBy}} Age
+    {{radio-button value='total' checked=sortBy}} Total
+    {{radio-button value='bench' checked=sortBy}} Bench
+    {{radio-button value='squat' checked=sortBy}} Squat
+    {{radio-button value='deadlift' checked=sortBy}} Deadlift
+    {{radio-button value='height' checked=sortBy}} Height
+    {{radio-button value='weight' checked=sortBy}} Weight
+  </div>
+
+  <div class="container">
+    Asc/desc
+    {{input type="checkbox" checked=reverseSort}} 
+  </div>
+
+{{#each sortedLifts as |lift|}}
+  <div class="container liftRecord">
+    Age: {{lift.age}} <br/>
+    Sex: {{lift.sex}} <br/>
+    Weight: {{lift.weight}} <br/>
+    Bench Press: {{lift.bench}} <br/>
+    Squat: {{lift.squat}} <br/>
+    Deadlift: {{lift.deadlift}} <br/>
+    <strong> Total: {{lift.total}}</strong>
+  </div>
+{{/each}}
