@@ -3,8 +3,11 @@
   <div class="container">
     <form>
       <h1> Local Gym Leaderboards </h1>
-      Gym Address: {{input}}
+      Gym Address: {{input value=gymAddress}}
       <button {{action "findGym"}}>Find Gym </button>
+      <br>
+      {{latitude}}
+      {{longitude}}
     </form>
   </div>
 </body>

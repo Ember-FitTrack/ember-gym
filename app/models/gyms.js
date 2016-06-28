@@ -5,6 +5,9 @@ import Model from 'ember-data/model';
 export default Model.extend({
   name: attr('string'),
   address: attr('string'),
-  latitude: attr('number'),
-  longitude: attr('number')
+  geography: {
+    latitude: attr('number'),
+    longitude: attr('number')
+  }
 });
+ 
