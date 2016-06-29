@@ -3,6 +3,9 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   ajax: Ember.inject.service(),
   actions: {
+    addGymForm() {
+      this.set('addGymForm', true);
+    },
     findGym() {
       let self = this;
       let addr = this.get('gymAddress');
@@ -27,8 +30,14 @@ export default Ember.Controller.extend({
           }
         })
         .then(function(res) {
-          console.log('exists?');
-          console.log(res);
+          let gyms = res.gyms;
+          if(gyms.length > 0) {
+            gotGym(res.gyms);
+          }
+          else {
+            self.set('gymNotFound', true)
+            self.set('addGymForm', true);
+          }
         })
         .catch(function(err) {
           console.log(err);

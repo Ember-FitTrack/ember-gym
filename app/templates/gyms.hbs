@@ -7,8 +7,24 @@
       <button {{action "findGym"}}>Find Gym </button>
         <div id="addressError" class="error"> Please enter a valid address </div>
       <br>
-      {{latitude}}
-      {{longitude}}
     </form>
+
+  {{#if gymNotFound}}
+    <div class="container">
+      <strong>Gym not found! Add a new one below!</strong>
+      <form>
+        <h3> Add New Gym </h3>
+        Name: {{input value=newGymName}}
+        <br>
+        Address: {{input value=newGymAddress}}
+        <button {{action "addGym"}}>Add Gym </button>
+      </form>
+    </div>
+  {{/if}}
+
+  {{#if gymFound}}
+
+  {{/if}}
+
   </div>
 </body>
