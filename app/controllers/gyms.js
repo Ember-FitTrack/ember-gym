@@ -6,7 +6,10 @@ export default Ember.Controller.extend({
     findGym() {
       let self = this;
       let addr = this.get('gymAddress');
-      console.log('address: ' + addr);
+      if(!addr) {
+        Ember.$('#addressError').css({'visibility': 'visible'});
+        return;
+      }
       return this.get('ajax').request('/google-gym', {
         method: 'GET',
         data: {
