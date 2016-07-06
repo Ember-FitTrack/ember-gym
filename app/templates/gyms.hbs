@@ -11,7 +11,7 @@
 
   {{#if gymNotFound}}
     <div class="container">
-      <strong>Gym not found! Add a new one below!</strong>
+      <strong>Gym not found in our records! Add a new one below!</strong>
       <form>
         <h3> Add New Gym </h3>
         Name: {{input value=newGymName}}
@@ -23,7 +23,15 @@
   {{/if}}
 
   {{#if gymFound}}
+    <strong> Gym found in our records! </strong>
+    Name: {{foundGymName}}
+    Address: {{foundGymAddress}}
+    Records:
+    {{gym-sort gyms = model}}
+  {{/if}}
 
+  {{#if sucessfullyAdded}}
+    <strong> Gym sucessfully added to our records! </strong>
   {{/if}}
 
   </div>

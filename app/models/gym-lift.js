@@ -3,6 +3,8 @@ import attr from 'ember-data/attr';
 // import { belongsTo, hasMany } from 'ember-data/relationships';
 
 export default Model.extend({
+  latitude: attr('number'),
+  longitude: attr('number'),
   age: attr('number'),
   weight: attr('number'),
   height: attr('number'),
