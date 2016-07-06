@@ -24,10 +24,55 @@
 
   {{#if gymFound}}
     <strong> Gym found in our records! </strong>
+    <br>
+    <button {{action "addGymRecord"}}>Add Record </button>
+    <br>
+    {{#if newGymRecord}}
+      Units:
+      {{radio-button value=true checked=units}} Imperial(lbs/in)
+      {{radio-button value=false checked=units}} Metric(kg/cm)
+        <div id="unitsError" class="error"> Please select a unit! </div>
+      <br>
+
+      Age: {{input value=age class="form-control"}}
+        <div id="ageError" class="error"> Please enter a valid age! </div>
+
+      Weight: {{input value=weight class="form-control"}}
+        <div id="weightError" class="error"> Please enter a valid weight! </div>
+
+      Height: {{input value=height class="form-control"}}
+        <div id="heightError" class="error"> Please enter a valid height! </div>
+
+      Sex:
+      {{radio-button value=true checked=sex}} Male
+      {{radio-button value=false checked=sex}} Female
+        <div id="sexError" class="error"> Please select a sex! </div>
+
+      <h2> Lifts </h2>
+
+      Bench Press: {{input value=benchMax enter="calculateLifts" class="form-control"}}
+        <div id="benchError" class="error"> Please enter a valid bench press! </div>
+      Squat: {{input value=squatMax enter="calculateLifts" class="form-control"}}
+        <div id="squatError" class="error"> Please enter a valid squat! </div>
+      Deadlift: {{input value=deadMax enter="calculateLifts" class="form-control"}}
+        <div id="deadliftError" class="error"> Please enter a valid deadlift! </div>
+
+      <button {{action "validateInput"}} > Calculate </button>
+    {{/if}}
     Name: {{foundGymName}}
     Address: {{foundGymAddress}}
     Records:
-    {{gym-sort gyms = model}}
+    {{#each gymRecords as |lift|}}
+    <div class="container liftRecord">
+      Age: {{lift.age}} <br/>
+      Sex: {{lift.sex}} <br/>
+      Weight: {{lift.weight}} <br/>
+      Bench Press: {{lift.bench}} <br/>
+      Squat: {{lift.squat}} <br/>
+      Deadlift: {{lift.deadlift}} <br/>
+      <strong> Total: {{lift.total}}</strong>
+    </div>
+    {{/each}}
   {{/if}}
 
   {{#if sucessfullyAdded}}
