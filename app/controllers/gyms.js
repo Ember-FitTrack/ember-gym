@@ -4,7 +4,7 @@ export default Ember.Controller.extend({
   ajax: Ember.inject.service(),
   actions: {
     validateInput() {
-
+      let name = this.get('username');
       let units = this.get('units');
       let age = parseInt(this.get('age'));
       let weight = parseInt(this.get('weight'));
@@ -19,6 +19,11 @@ export default Ember.Controller.extend({
       Ember.$('.error').css('visibility', 'hidden');
       if(units == null) {
         Ember.$('#unitsError').css('visibility', 'visible');
+        errors = true;
+      }
+      console.log(name);
+      if(name == undefined) {
+        Ember.$('nameError').css('visibility', 'visible');
         errors = true;
       }
       if(!age) {
@@ -67,6 +72,7 @@ export default Ember.Controller.extend({
           data: {
             latitude: res.latitude,
             longitude: res.longitude,
+            name: name,
             age: age,
             weight: weight,
             height: height,

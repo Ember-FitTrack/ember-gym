@@ -33,6 +33,8 @@
       {{radio-button value=false checked=units}} Metric(kg/cm)
         <div id="unitsError" class="error"> Please select a unit! </div>
       <br>
+      Name: {{input value=username class="form-control"}}
+        <div id="nameError" class="error"> Please enter a valid name! </div>
 
       Age: {{input value=age class="form-control"}}
         <div id="ageError" class="error"> Please enter a valid age! </div>
@@ -64,6 +66,7 @@
     Records:
     {{#each gymRecords as |lift|}}
     <div class="container liftRecord">
+      Name: {{lift.name}} <br/>
       Age: {{lift.age}} <br/>
       Sex: {{lift.sex}} <br/>
       Weight: {{lift.weight}} <br/>
