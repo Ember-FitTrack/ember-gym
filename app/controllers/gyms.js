@@ -22,8 +22,8 @@ export default Ember.Controller.extend({
         errors = true;
       }
       console.log(name);
-      if(name == undefined) {
-        Ember.$('nameError').css('visibility', 'visible');
+      if(name === undefined) {
+        Ember.$('#nameError').css('visibility', 'visible');
         errors = true;
       }
       if(!age) {
@@ -82,7 +82,11 @@ export default Ember.Controller.extend({
             deadlift: deadlift,
             total: total
           }
-        });
+        })
+          .then(function() {
+            self.set('newGymRecord', false);
+            self.send('findGym');
+          });
       });
     },
     addGymRecord() {
@@ -145,10 +149,23 @@ export default Ember.Controller.extend({
         .then(function(res) {
           let gyms = res.gyms;
           if(gyms.length > 0) {
+            self.set('centerLat', gyms[0].latitude);
+            self.set('centerLng', gyms[0].longitude);
+            const map = 'https://maps.googleapis.com/maps/api/staticmap?'+
+            'center=' + gyms[0].latitude +',' + gyms[0].longitude +'&zoom=12&size=400x400&' +
+            'maptype=roadmap&key=AIzaSyDizqIx-O56c809Cl9xK4NxqNuU_8SuXwU';
+            console.log(map);
+            self.set('mapURL', 'https://maps.googleapis.com/maps/api/staticmap?'+
+            'center=' + gyms[0].latitude +',' + gyms[0].longitude +'&zoom=12&size=400x400&' +
+            'maptype=roadmap&key=AIzaSyDizqIx-O56c809Cl9xK4NxqNuU_8SuXwU');
+
             self.set('gymNotFound', false);
             self.set('addGymForm', false);
             self.set('gymFound', true);
             self.set('sucessfullyAdded', false);
+            self.set('foundGymName', gyms[0].name);
+            self.set('foundGymAddress', gyms[0].address);
+            console.log(gyms[0]);
             return self.get('ajax').request('/gym-lifts', {
               method: 'GET',
               data: {

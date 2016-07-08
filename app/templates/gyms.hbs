@@ -23,6 +23,8 @@
   {{/if}}
 
   {{#if gymFound}}
+    <img src="{{mapURL}}">
+    <br/>
     <strong> Gym found in our records! </strong>
     <br>
     <button {{action "addGymRecord"}}>Add Record </button>
@@ -59,12 +61,13 @@
       Deadlift: {{input value=deadMax enter="calculateLifts" class="form-control"}}
         <div id="deadliftError" class="error"> Please enter a valid deadlift! </div>
 
-      <button {{action "validateInput"}} > Calculate </button>
+      <button {{action "validateInput"}} > Send </button> <br/>
     {{/if}}
-    Name: {{foundGymName}}
-    Address: {{foundGymAddress}}
+    Name: <strong> {{foundGymName}} </strong><br/>
+    Address: <strong> {{foundGymAddress}} </strong><br/>
     Records:
     {{#each gymRecords as |lift|}}
+      {{#if lift}}
     <div class="container liftRecord">
       Name: {{lift.name}} <br/>
       Age: {{lift.age}} <br/>
@@ -75,6 +78,9 @@
       Deadlift: {{lift.deadlift}} <br/>
       <strong> Total: {{lift.total}}</strong>
     </div>
+      {{/if}}
+      {{else}}
+        <strong> No records yet! </strong>
     {{/each}}
   {{/if}}
 
