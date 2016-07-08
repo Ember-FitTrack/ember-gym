@@ -57,9 +57,27 @@ export default Ember.Controller.extend({
       if(errors) {
         return;
       }
+
+      if(sex) {
+        sex = 'Male';
+      }
+      else if(!sex) {
+        sex = 'Female';
+      }
+
       let addr = this.get('gymAddress');
       let self = this;
       let total = bench + squat + deadlift;
+
+      //store everything as pounds
+      if(!units) {
+        weight *= 2.2;
+        bench *= 2.2;
+        squat *= 2.2;
+        deadlift *= 2.2;
+        height *= 0.393701;
+      }
+
       return this.get('ajax').request('/google-gym', {
         method: 'GET',
         data: {
@@ -74,13 +92,13 @@ export default Ember.Controller.extend({
             longitude: res.longitude,
             name: name,
             age: age,
-            weight: weight,
-            height: height,
+            weight: weight.toFixed(2),
+            height: height.toFixed(2),
             sex: sex,
-            bench: bench,
-            squat: squat,
-            deadlift: deadlift,
-            total: total
+            bench: bench.toFixed(2),
+            squat: squat.toFixed(2),
+            deadlift: deadlift.toFixed(2),
+            total: total.toFixed(2)
           }
         })
           .then(function() {

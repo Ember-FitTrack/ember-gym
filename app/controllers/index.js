@@ -40,6 +40,16 @@ export default Ember.Controller.extend({
       let squat = parseInt(this.get('squatMax'));
       let deadlift = parseInt(this.get('deadMax'));
       let sex = this.get('sex');
+      let units = this.get('units');
+
+      //store everything as pounds
+      if(!units) {
+        weight *= 2.2;
+        bench *= 2.2;
+        squat *= 2.2;
+        deadlift *= 2.2;
+        height *= 0.393701;
+      }
 
       sex = (sex===true ? 'Male' : 'Female');
       let total = bench + squat + deadlift;
@@ -47,13 +57,13 @@ export default Ember.Controller.extend({
         method: 'POST',
         data: {
           age: age,
-          weight: weight,
-          height: height,
+          weight: weight.toFixed(2),
+          height: height.toFixed(2),
           sex: sex,
-          bench: bench,
-          squat: squat,
-          deadlift: deadlift,
-          total: total
+          bench: bench.toFixed(2),
+          squat: squat.toFixed(2),
+          deadlift: deadlift.toFixed(2),
+          total: total.toFixed(2)
         }
       });
     },
