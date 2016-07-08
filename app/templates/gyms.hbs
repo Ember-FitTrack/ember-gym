@@ -2,7 +2,9 @@
   {{nav-bar}}
   <div class="container">
     <form>
-      <h1> Local Gym Leaderboards </h1>
+      <div class="page-header">
+        <h1> Local Gym Leaderboards </h1>
+      </div>
       Gym Address: {{input value=gymAddress}}
       <button {{action "findGym"}}>Find Gym </button>
         <div id="addressError" class="error"> Please enter a valid address </div>
