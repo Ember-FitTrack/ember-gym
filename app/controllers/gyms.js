@@ -154,13 +154,21 @@ export default Ember.Controller.extend({
       this.set('addGymForm', true);
     },
     findGym() {
+      //find a gym from it's address
       let self = this;
       let addr = this.get('gymAddress');
+
+      //make sure the address form is completed
       if(!addr) {
         Ember.$('#addressError').css({'visibility': 'visible'});
         return;
       }
+
+      //if it was, remove the error message
+      Ember.$('#addressError').css({'visibility': 'hidden'});
+
       return this.get('ajax').request('/google-gym', {
+        //get coordinates from google maps
         method: 'GET',
         data: {
           address: addr
@@ -169,6 +177,7 @@ export default Ember.Controller.extend({
       .then(function(res) {
         self.latitude = res.latitude;
         self.longitude = res.longitude;
+        //try to get a gym associated with this latitude and longitude
         return self.get('ajax').request('/gym', {
           method: 'GET',
           data: {
@@ -178,13 +187,17 @@ export default Ember.Controller.extend({
         })
         .then(function(res) {
           let gyms = res.gyms;
+          //if gyms exist, take the first one for simplicity
           if(gyms.length > 0) {
             self.set('centerLat', gyms[0].latitude);
             self.set('centerLng', gyms[0].longitude);
+
+            //grab a map image
             self.set('mapURL', 'https://maps.googleapis.com/maps/api/staticmap?'+
             'center=' + gyms[0].latitude +',' + gyms[0].longitude +'&zoom=12&size=400x400&' +
             'maptype=roadmap&key=' + config.KEYS.GOOGLE_MAPS);
 
+            //update view
             self.set('gymNotFound', false);
             self.set('addGymForm', false);
             self.set('gymFound', true);
@@ -192,6 +205,7 @@ export default Ember.Controller.extend({
             self.set('foundGymName', gyms[0].name);
             self.set('foundGymAddress', gyms[0].address);
 
+            //get the lifts for this gym
             return self.get('ajax').request('/gym-lifts', {
               method: 'GET',
               data: {
@@ -200,13 +214,13 @@ export default Ember.Controller.extend({
               }
             })
               .then(function(res) {
-                console.log(res.gymlift);
                 self.set('gymRecords', res.gymlift);
               })
                 .catch(function(err) {
                   console.log(err);
                 });
           }
+          //otherwise, add the gym!
           else {
             self.set('gymFound', false);
             self.set('sucessfullyAdded', false);
@@ -221,7 +235,6 @@ export default Ember.Controller.extend({
       .catch(function(err) {
         console.log(err);
       });
-
     }
   }
 });
