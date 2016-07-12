@@ -1,5 +1,6 @@
 import Ember from 'ember';
 
+//used to sort the gym records
 export default Ember.Component.extend({
   tagName: 'ul',
   sortedGyms: Ember.computed.sort('gymLifts', 'sortDefinition'),
