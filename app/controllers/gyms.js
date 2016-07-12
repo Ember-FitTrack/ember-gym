@@ -1,9 +1,13 @@
 import Ember from 'ember';
+import config from '../config/environment';
 
 export default Ember.Controller.extend({
   ajax: Ember.inject.service(),
   actions: {
+
+    //validate input and send ajax request to leaderboard
     validateInput() {
+
       let name = this.get('username');
       let units = this.get('units');
       let age = parseInt(this.get('age'));
@@ -16,12 +20,12 @@ export default Ember.Controller.extend({
 
       let errors = false;
 
+      //check each field for errors
       Ember.$('.error').css('visibility', 'hidden');
       if(units == null) {
         Ember.$('#unitsError').css('visibility', 'visible');
         errors = true;
       }
-      console.log(name);
       if(name === undefined) {
         Ember.$('#nameError').css('visibility', 'visible');
         errors = true;
@@ -66,7 +70,6 @@ export default Ember.Controller.extend({
       }
 
       let addr = this.get('gymAddress');
-      let self = this;
       let total = bench + squat + deadlift;
 
       //store everything as pounds
@@ -78,6 +81,8 @@ export default Ember.Controller.extend({
         height *= 0.393701;
       }
 
+      let self = this;
+      //get the longitude and latitude from the address using google maps API
       return this.get('ajax').request('/google-gym', {
         method: 'GET',
         data: {
@@ -85,6 +90,7 @@ export default Ember.Controller.extend({
         }
       })
       .then(function(res) {
+        //send another request to the leaderboard
         return self.get('ajax').request('/gym-lifts', {
           method: 'POST',
           data: {
@@ -102,25 +108,30 @@ export default Ember.Controller.extend({
           }
         })
           .then(function() {
+            //update view
             self.set('newGymRecord', false);
             self.send('findGym');
           });
       });
     },
     addGymRecord() {
+      //show the add record form
       this.set('newGymRecord', true);
     },
     addGym() {
+      //adds a new gym to the database
       let name = this.get('newGymName');
       let addr = this.get('newGymAddress');
       let self = this;
       return this.get('ajax').request('/google-gym', {
+        //get the coordinates from google maps
         method: 'GET',
         data: {
           address: addr
         }
       })
       .then(function(res) {
+        //put the new gym in the database along with its coordinates
         return self.get('ajax').request('/gym', {
           method: 'POST',
           data: {
@@ -131,7 +142,7 @@ export default Ember.Controller.extend({
           }
         })
         .then(function() {
-          //add validation
+          //update the view to say we found the current gym
           self.set('gymNotFound', false);
           self.set('gymFound', false);
           self.set('sucessfullyAdded', true);
@@ -139,6 +150,7 @@ export default Ember.Controller.extend({
       });
     },
     addGymForm() {
+      //show the add gym form
       this.set('addGymForm', true);
     },
     findGym() {
@@ -169,13 +181,9 @@ export default Ember.Controller.extend({
           if(gyms.length > 0) {
             self.set('centerLat', gyms[0].latitude);
             self.set('centerLng', gyms[0].longitude);
-            const map = 'https://maps.googleapis.com/maps/api/staticmap?'+
-            'center=' + gyms[0].latitude +',' + gyms[0].longitude +'&zoom=12&size=400x400&' +
-            'maptype=roadmap&key=AIzaSyDizqIx-O56c809Cl9xK4NxqNuU_8SuXwU';
-            console.log(map);
             self.set('mapURL', 'https://maps.googleapis.com/maps/api/staticmap?'+
             'center=' + gyms[0].latitude +',' + gyms[0].longitude +'&zoom=12&size=400x400&' +
-            'maptype=roadmap&key=AIzaSyDizqIx-O56c809Cl9xK4NxqNuU_8SuXwU');
+            'maptype=roadmap&key=' + config.KEYS.GOOGLE_MAPS);
 
             self.set('gymNotFound', false);
             self.set('addGymForm', false);
@@ -183,7 +191,7 @@ export default Ember.Controller.extend({
             self.set('sucessfullyAdded', false);
             self.set('foundGymName', gyms[0].name);
             self.set('foundGymAddress', gyms[0].address);
-            console.log(gyms[0]);
+
             return self.get('ajax').request('/gym-lifts', {
               method: 'GET',
               data: {

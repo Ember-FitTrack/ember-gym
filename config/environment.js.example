@@ -18,7 +18,7 @@ module.exports = function(environment) {
     },
 
     KEYS: {
-      'GOOGLE_MAPS' : 'AIzaSyDizqIx-O56c809Cl9xK4NxqNuU_8SuXwU'
+      'GOOGLE_MAPS' : ''
     },
 
     contentSecurityPolicy: {
