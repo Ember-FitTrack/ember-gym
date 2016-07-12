@@ -26,13 +26,8 @@ const wilksFemaleF = -0.00000009054;
 export default Ember.Controller.extend({
   ajax: Ember.inject.service(),
   actions: {
-    validateInput() {
-
-
-      console.log('hello stats');
-      this.send('calculateLifts');
-    },
     sendRequest() {
+      //get input fields
       let age = parseInt(this.get('age'));
       let weight = parseInt(this.get('weight'));
       let height = parseInt(this.get('height'));
@@ -51,8 +46,12 @@ export default Ember.Controller.extend({
         height *= 0.393701;
       }
 
-      sex = (sex===true ? 'Male' : 'Female');
+      //convert radio button values into the user's sex
+      sex = (sex === true ? 'Male' : 'Female');
+
       let total = bench + squat + deadlift;
+
+      //add data to the leaderboards
       return this.get('ajax').request('/lifts', {
         method: 'POST',
         data: {
@@ -68,6 +67,7 @@ export default Ember.Controller.extend({
       });
     },
     calculateLifts() {
+      //get input fields
       let units = this.get('units');
       let age = parseInt(this.get('age'));
       let weight = parseInt(this.get('weight'));
@@ -79,6 +79,7 @@ export default Ember.Controller.extend({
 
       let errors = false;
 
+      //validate forms
       Ember.$('.error').css('visibility', 'hidden');
       if(units == null) {
         Ember.$('#unitsError').css('visibility', 'visible');
@@ -116,12 +117,15 @@ export default Ember.Controller.extend({
         return;
       }
 
+      //update view and start setting values
       this.set('isCalculated', true);
       this.set('liftTotal', bench+squat+deadlift);
 
+      //convert sex
       sex = (sex===true ? 'Male' : 'Female');
       this.set('sexResult', sex);
 
+      //convert everything to imperial units
       if(!units) {
         weight *= 2.2;
         bench *= 2.2;
@@ -129,6 +133,7 @@ export default Ember.Controller.extend({
         deadlift *= 2.2;
         height *= 0.393701;
       }
+
       //used for color coding body diagram
       let benchRate, squatRate, deadRate;
       let benchColor, squatColor, deadColor;
@@ -314,10 +319,7 @@ export default Ember.Controller.extend({
             data[i+1] = squatColor[1];
             data[i+2] = squatColor[2];
           }
-
-
         }
-
         ctx.putImageData(imgData, 0, 0);
       }
     }
