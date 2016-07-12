@@ -1,5 +1,6 @@
 import Ember from 'ember';
 
+//used to sort leaderboards
 export default Ember.Component.extend({
   tagName: 'ul',
   sortedLifts: Ember.computed.sort('lifts', 'sortDefinition'),
